@@ -13,4 +13,6 @@ eureka:
     fetch-registry: true
     #设置服务注册中心的URL，用于client和server端交流
     service-url:
-      defaultZone: http://localhost:10010/eureka/,http://localhost:10011/eureka/
+      defaultZone: http://quaintlocal-1.com:10010/eureka/,http://quaintlocal-2.com:10011/eureka/
+  instance:
+    hostname: quaintlocal-1.com
