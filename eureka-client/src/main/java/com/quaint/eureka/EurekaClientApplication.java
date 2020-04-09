@@ -2,7 +2,6 @@ package com.quaint.eureka;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 /**
  * @author quaint
@@ -10,7 +9,6 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
  * @since 1.26
  */
 @SpringBootApplication
-@EnableEurekaClient
 public class EurekaClientApplication {
 
     public static void main(String[] args) {
