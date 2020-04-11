@@ -8,6 +8,7 @@ import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
@@ -18,10 +19,14 @@ import java.util.List;
  * @since 09 April 2020
  */
 @RestController
+@RequestMapping("consumer")
 public class ClientConsumerController {
 
     @Autowired
     LoadBalancerClient loadBalancerClient;
+
+    @Autowired
+    RestTemplate restTemplate;
 
     /**
      * ===================== discoveryClient =====================
@@ -30,7 +35,7 @@ public class ClientConsumerController {
     private DiscoveryClient discoveryClient;
 
 
-    @GetMapping("/consumer/hello")
+    @GetMapping("/hello")
     public String consumerHelloWord(){
 
         String description = discoveryClient.description();
@@ -62,7 +67,7 @@ public class ClientConsumerController {
      * List<InstanceInfo> instances1 = eurekaClient.getInstancesById("quaintdembp.lan:eureka-client-provider:10020");
      * @return str
      */
-    @GetMapping("/consumer/hello2")
+    @GetMapping("/hello2")
     public String consumerHelloWord2(){
 
         // 通过服务名 获取实例
@@ -74,29 +79,34 @@ public class ClientConsumerController {
 
         if (instances.size()>0){
 
-            // 创建远程调用对象
-            RestTemplate restTemplate = new RestTemplate();
             // 获取第一个实例
             InstanceInfo ins = instances.get(0);
             // 如果 eureka 拉取的服务没有挂掉
             if (ins.getStatus().equals(InstanceInfo.InstanceStatus.UP)){
                 String url = "http://"+ins.getHostName()+":"+ins.getPort()+"/get/hello";
                 System.out.println(url);
-
-
                 String forObject = restTemplate.getForObject(url, String.class);
-                System.out.println(forObject);
+                System.out.println("第一个实例 ==> "+forObject);
             }
-
-            // 通过负载均衡获取实例
-            ServiceInstance choose = loadBalancerClient.choose("eureka-client-provider");
-            String url = "http://"+choose.getHost()+":"+choose.getPort()+"/get/hello";
-            String forObject = restTemplate.getForObject(url, String.class);
-            System.out.println("loadBalancerClient ==>" + forObject);
 
         }
 
-        return "consumerHelloWord2";
+        System.out.println("====================================");
+
+        // 通过负载均衡获取实例
+        ServiceInstance choose = loadBalancerClient.choose("eureka-client-provider");
+        String url = "http://"+choose.getHost()+":"+choose.getPort()+"/get/hello";
+        String forObject = restTemplate.getForObject(url, String.class);
+        System.out.println("负载均衡结果 ==> " + forObject);
+
+        return forObject;
+    }
+
+    @GetMapping("/hello3")
+    public String consumerHelloWorld3(){
+
+        String url = "http://eureka-client-provider/get/hello";
+        return url;
     }
 
 }
