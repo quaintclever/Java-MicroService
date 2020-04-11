@@ -22,12 +22,26 @@ import java.util.List;
 @RequestMapping("consumer")
 public class ClientConsumerController {
 
-    @Autowired
-    LoadBalancerClient loadBalancerClient;
-
+    /**
+     * ===================== restTemplate =====================
+     */
     @Autowired
     RestTemplate restTemplate;
 
+
+    @GetMapping("/hello3")
+    public String consumerHelloWorld3(){
+
+        // 通过负载均衡获取实例 需要加 @LoadBalanced 注解
+        String url = "http://eureka-client-provider/get/hello";
+        String forObject = restTemplate.getForObject(url, String.class);
+        System.out.println("负载均衡结果 ==> " + forObject);
+        return forObject;
+    }
+
+
+    @Autowired
+    LoadBalancerClient loadBalancerClient;
     /**
      * ===================== discoveryClient =====================
      */
@@ -85,6 +99,7 @@ public class ClientConsumerController {
             if (ins.getStatus().equals(InstanceInfo.InstanceStatus.UP)){
                 String url = "http://"+ins.getHostName()+":"+ins.getPort()+"/get/hello";
                 System.out.println(url);
+                // 这里报错请去掉 @LoadBalanced
                 String forObject = restTemplate.getForObject(url, String.class);
                 System.out.println("第一个实例 ==> "+forObject);
             }
@@ -96,17 +111,11 @@ public class ClientConsumerController {
         // 通过负载均衡获取实例
         ServiceInstance choose = loadBalancerClient.choose("eureka-client-provider");
         String url = "http://"+choose.getHost()+":"+choose.getPort()+"/get/hello";
+        // 这里报错请去掉 @LoadBalanced
         String forObject = restTemplate.getForObject(url, String.class);
         System.out.println("负载均衡结果 ==> " + forObject);
 
         return forObject;
-    }
-
-    @GetMapping("/hello3")
-    public String consumerHelloWorld3(){
-
-        String url = "http://eureka-client-provider/get/hello";
-        return url;
     }
 
 }
