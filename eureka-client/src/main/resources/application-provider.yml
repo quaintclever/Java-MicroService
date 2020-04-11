@@ -7,14 +7,14 @@ spring:
 
 eureka:
   client:
-    # 是否将自己注册到Eureka Server,默认为true
+    # 是否将自己注册到 eureka server, 默认为 true
     register-with-eureka: true
-    # 是否从eureka server获取注册信息
+    # 是否从 eureka server 获取注册信息
     fetch-registry: true
-    # 设置服务注册中心的URL，用于client和server端交流
+    # 设置服务注册中心的 URL，用于 client 和 server 端交流
     service-url:
       defaultZone: http://quaintlocal-1.com:10010/eureka/,http://quaintlocal-2.com:10011/eureka/
-    # 是否开启健康检查
+    # 是否开启健康检查, 可以上报自己的真实状态 up down
     healthcheck:
       enabled: true
   instance:
@@ -23,11 +23,10 @@ eureka:
 management:
   endpoint:
     shutdown:
-      # 是否可以 停止该 服务
+      # 是否可以 停止 该服务
       enabled: true
   endpoints:
     web:
       exposure:
         # 查看所有状态
         include: '*'
-

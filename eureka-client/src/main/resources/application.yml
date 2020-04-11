@@ -1,4 +1,4 @@
 spring:
   profiles:
-    active: provider
-#    active: consumer
+#    active: provider
+    active: consumer

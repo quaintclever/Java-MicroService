@@ -16,3 +16,8 @@ eureka:
       defaultZone: http://quaintlocal-1.com:10010/eureka/,http://quaintlocal-2.com:10011/eureka/
   instance:
     hostname: localhost
+
+# 配置负载均衡策略
+#eureka-client-consumer:
+#  ribbon:
+#    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule

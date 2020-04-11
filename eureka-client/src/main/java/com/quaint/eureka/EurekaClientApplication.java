@@ -1,5 +1,7 @@
 package com.quaint.eureka;
 
+import com.netflix.loadbalancer.IRule;
+import com.netflix.loadbalancer.RandomRule;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +22,15 @@ public class EurekaClientApplication {
     @Bean
     public RestTemplate getRestTemplate(){
         return new RestTemplate();
+    }
+
+    /**
+     * 初始化负载均衡策略, 或者在配置文件中配置
+     * @return iRule
+     */
+    @Bean
+    public IRule getIRule(){
+        return new RandomRule();
     }
 
 }
