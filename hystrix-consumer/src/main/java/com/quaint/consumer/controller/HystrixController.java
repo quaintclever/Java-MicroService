@@ -1,6 +1,6 @@
 package com.quaint.consumer.controller;
 
-import com.quaint.consumer.service.FeignService;
+import com.quaint.consumer.service.HystrixService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,15 +15,15 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 11 May 2020
  */
 @RestController
-@RequestMapping("feign")
-public class FeignController {
+@RequestMapping("hystrix")
+public class HystrixController {
 
     @Autowired
-    FeignService feignService;
+    HystrixService hystrixService;
 
     @GetMapping("hello")
-    public String rpcSayHello(){
-        return feignService.rpcSayHello();
+    public String hystrixRpcSayHello(){
+        return hystrixService.hystrixRpcSayHello();
     }
 
 }

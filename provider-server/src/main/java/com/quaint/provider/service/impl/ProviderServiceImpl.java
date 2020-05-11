@@ -4,6 +4,8 @@ import com.quaint.provider.service.ProviderService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * <p>
  * desc:
@@ -21,9 +23,19 @@ public class ProviderServiceImpl implements ProviderService {
     @Value("${server.port}")
     private String port;
 
+    /**
+     * 调用次数临时计数
+     */
+    private int count = 0;
 
     @Override
     public String sayHello(){
+        System.out.println(appName+":"+port+" == >接口第"+ ++count + "次调用");
+        try {
+            TimeUnit.SECONDS.sleep(5);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return appName+":"+port+" ==> hello";
     }
 

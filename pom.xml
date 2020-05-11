@@ -23,6 +23,7 @@
         <module>provider-api</module>
         <module>provider-server</module>
         <module>feign-consumer</module>
+        <module>hystrix-consumer</module>
     </modules>
 
     <!-- 版本配置 -->

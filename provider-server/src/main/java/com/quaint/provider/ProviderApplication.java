@@ -5,7 +5,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * <p>
- * desc:
+ *
+ * desc: 第二个实例 请增加参数
+ *
+ * -Dserver.port=9996
+ *
  * </p>
  *
  * @author quaint
